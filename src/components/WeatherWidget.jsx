@@ -220,8 +220,8 @@ export default function WeatherWidget({ weatherData, loading }) {
             {/* GRID LAYOUT */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
 
-                {/* ROW 1: Alerts & Wind Map */}
-                <div className="weather-grid-row">
+                {/* ROW 1: Alerts (Full Width) */}
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {/* Alert Card */}
                     <DarkCard title="Штормовое Предупреждение" icon={AlertTriangle}>
                         <div style={{ marginTop: '0.5rem' }}>
@@ -231,22 +231,6 @@ export default function WeatherWidget({ weatherData, loading }) {
                             </p>
                             <div style={{ marginTop: '1rem', height: '1px', background: 'rgba(255,255,255,0.2)' }}></div>
                             <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', opacity: 0.6 }}>Источник: Defesa Civil SC</div>
-                        </div>
-                    </DarkCard>
-
-                    {/* Wind Map Visual */}
-                    <DarkCard title="Карта Ветра" icon={MapIcon} style={{
-                        background: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/floripa-map.jpg)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        minHeight: '160px'
-                    }}>
-                        <div style={{ position: 'relative', zIndex: 1, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-                            <Navigation size={32} style={{ transform: `rotate(${current.wind_direction_10m}deg)` }} />
-                            <div style={{ fontWeight: 700, fontSize: '1.2rem', marginTop: '0.5rem' }}>{Math.round(current.wind_speed_10m)} км/ч</div>
-                            <div style={{ fontSize: '0.8rem', opacity: 0.9 }}>Порывы {Math.round(current.wind_gusts_10m)} км/ч</div>
                         </div>
                     </DarkCard>
                 </div>
@@ -361,17 +345,33 @@ export default function WeatherWidget({ weatherData, loading }) {
 
                         {/* Wind */}
                         <DarkCard title="ВЕТЕР" icon={Wind} style={{ height: '160px' }}>
-                            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                                {/* Circular Compass UI */}
-                                <div style={{ width: '90px', height: '90px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div style={{ flex: 1, display: 'flex', alignItems: 'center', position: 'relative' }}>
+                                {/* Circular Compass UI - Shifted Left */}
+                                <div style={{
+                                    width: '90px',
+                                    height: '90px',
+                                    borderRadius: '50%',
+                                    border: '1px solid rgba(255,255,255,0.2)',
+                                    position: 'relative',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginLeft: '0.5rem'
+                                }}>
                                     <span style={{ position: 'absolute', top: 2, fontSize: '0.6rem', fontWeight: 'bold' }}>С</span>
                                     <span style={{ position: 'absolute', right: 4, fontSize: '0.6rem', fontWeight: 'bold' }}>В</span>
                                     <span style={{ position: 'absolute', bottom: 2, fontSize: '0.6rem', fontWeight: 'bold' }}>Ю</span>
                                     <span style={{ position: 'absolute', left: 4, fontSize: '0.6rem', fontWeight: 'bold' }}>З</span>
-                                    <ArrowUp size={32} style={{ transform: `rotate(${current.wind_direction_10m}deg)` }} fill="white" />
+                                    <Navigation size={48} style={{ transform: `rotate(${current.wind_direction_10m}deg)` }} fill="none" strokeWidth={2.5} />
                                 </div>
-                                <div style={{ position: 'absolute', textAlign: 'center' }}>
-                                    <div style={{ fontSize: '0.8rem', fontWeight: 700, background: 'rgba(0,0,0,0.5)', padding: '2px 4px', borderRadius: '4px' }}>{Math.round(current.wind_speed_10m)}</div>
+                                {/* Info Text - Top Right */}
+                                <div style={{ position: 'absolute', top: 0, right: 0, textAlign: 'right', pointerEvents: 'none' }}>
+                                    <div style={{ fontSize: '1.5rem', fontWeight: 700, textShadow: '0 2px 4px rgba(0,0,0,0.8)', lineHeight: 1 }}>
+                                        {Math.round(current.wind_speed_10m)} <span style={{ fontSize: '0.8rem' }}>км/ч</span>
+                                    </div>
+                                    <div style={{ fontSize: '0.7rem', opacity: 0.9, textShadow: '0 1px 2px rgba(0,0,0,0.8)', marginTop: '0.2rem' }}>
+                                        Порывы<br />{Math.round(current.wind_gusts_10m)} км/ч
+                                    </div>
                                 </div>
                             </div>
                         </DarkCard>
