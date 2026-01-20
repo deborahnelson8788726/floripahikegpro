@@ -330,10 +330,36 @@ export default function WeatherWidget({ weatherData, loading }) {
 
                         {/* UV Index */}
                         <DarkCard title="УФ-ИНДЕКС" icon={Sun} style={{ height: '160px' }}>
-                            <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>Низкий до конца дня</div>
-                            <div style={{ fontSize: '2.5rem', fontWeight: 500, margin: '0.5rem 0' }}>{weatherData.hourly.uv_index[0]}</div>
+                            <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>
+                                {(() => {
+                                    const now = new Date();
+                                    const idx = weatherData.hourly.time.findIndex(t => new Date(t) >= now);
+                                    const currentUV = weatherData.hourly.uv_index[idx !== -1 ? idx : 0];
+                                    return currentUV > 2 ? 'Используйте SPF' : 'Низкий до конца дня';
+                                })()}
+                            </div>
+                            <div style={{ fontSize: '2.5rem', fontWeight: 500, margin: '0.5rem 0' }}>
+                                {(() => {
+                                    const now = new Date();
+                                    const idx = weatherData.hourly.time.findIndex(t => new Date(t) >= now);
+                                    return weatherData.hourly.uv_index[idx !== -1 ? idx : 0];
+                                })()}
+                            </div>
                             <div style={{ height: '4px', background: 'linear-gradient(90deg, green, yellow, red, purple)', borderRadius: '2px', width: '100%' }}>
-                                <div style={{ width: '10px', height: '10px', background: 'white', borderRadius: '50%', marginTop: '-3px', marginLeft: `${(weatherData.hourly.uv_index[0] / 11) * 100}%`, border: '2px solid #1a3c20' }}></div>
+                                <div style={{
+                                    width: '10px',
+                                    height: '10px',
+                                    background: 'white',
+                                    borderRadius: '50%',
+                                    marginTop: '-3px',
+                                    marginLeft: `${(() => {
+                                        const now = new Date();
+                                        const idx = weatherData.hourly.time.findIndex(t => new Date(t) >= now);
+                                        const val = weatherData.hourly.uv_index[idx !== -1 ? idx : 0];
+                                        return Math.min((val / 11) * 100, 100);
+                                    })()}%`,
+                                    border: '2px solid #1a3c20'
+                                }}></div>
                             </div>
                         </DarkCard>
 
