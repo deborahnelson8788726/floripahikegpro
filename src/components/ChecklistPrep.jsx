@@ -14,7 +14,7 @@ export default function ChecklistPrep() {
     ];
 
     const handleDownloadTXT = () => {
-        let content = "Floripa Hiking PRO - Offline Checklist\n";
+        let content = "\uFEFFFloripa Hiking PRO - Offline Checklist\n";
         content += "Generated on: " + new Date().toLocaleDateString() + "\n\n";
 
         sections.forEach(section => {
