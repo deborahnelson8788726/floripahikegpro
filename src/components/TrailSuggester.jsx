@@ -16,11 +16,12 @@ export default function TrailSuggester() {
             const trailIndex = twoWeeksIndex % trails.length;
             const mainTrail = trails[trailIndex];
 
-            // Get 3 alternatives (just next ones in array for simplicity)
+            // Get 4 alternatives (just next ones in array for simplicity)
             const alts = [
                 trails[(trailIndex + 1) % trails.length],
                 trails[(trailIndex + 2) % trails.length],
-                trails[(trailIndex + 3) % trails.length]
+                trails[(trailIndex + 3) % trails.length],
+                trails[(trailIndex + 4) % trails.length]
             ];
 
             let reasonText = "";
@@ -86,11 +87,10 @@ export default function TrailSuggester() {
                 </h2>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '2rem', alignItems: 'start' }}>
-
-                {/* LEFT: Featured Trail */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                {/* TOP: Featured Trail */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', height: '280px', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}>
+                    <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', height: '350px', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}>
                         <img
                             src={suggestedTrail.image}
                             alt={suggestedTrail.name}
@@ -99,10 +99,10 @@ export default function TrailSuggester() {
                         <div style={{
                             position: 'absolute', bottom: 0, left: 0, right: 0,
                             background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
-                            padding: '1.5rem', color: 'white'
+                            padding: '2rem', color: 'white'
                         }}>
-                            <h3 style={{ fontSize: '2rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.5rem', fontFamily: '"Georgia", serif', color: '#fff' }}>{suggestedTrail.name}</h3>
-                            <div style={{ display: 'flex', gap: '1rem', fontSize: '0.9rem', opacity: 0.9 }}>
+                            <h3 style={{ fontSize: '2.5rem', fontWeight: 700, lineHeight: 1, marginBottom: '0.5rem', fontFamily: '"Georgia", serif', color: '#fff' }}>{suggestedTrail.name}</h3>
+                            <div style={{ display: 'flex', gap: '1.5rem', fontSize: '1rem', opacity: 0.95 }}>
                                 <span>⏱️ {suggestedTrail.duration}</span>
                                 <span>📏 {suggestedTrail.distance}</span>
                                 <span>⛰️ {suggestedTrail.difficulty}</span>
@@ -110,8 +110,8 @@ export default function TrailSuggester() {
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'stretch' }}>
-                        <div style={{ flex: 1, background: '#f0fdf4', padding: '1rem', borderRadius: '12px', border: '1px solid #bbf7d0', display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#166534', fontWeight: 500 }}>
+                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'stretch', flexDirection: 'row' }}>
+                        <div style={{ flex: 1, background: '#f0fdf4', padding: '1.25rem', borderRadius: '12px', border: '1px solid #bbf7d0', display: 'flex', alignItems: 'center', gap: '1rem', color: '#166534', fontWeight: 500, fontSize: '1rem' }}>
                             {reason.icon}
                             {reason.text}
                         </div>
@@ -120,7 +120,7 @@ export default function TrailSuggester() {
                             style={{
                                 background: '#1a3c20',
                                 color: '#fff',
-                                padding: '0 1.5rem',
+                                padding: '0 2rem',
                                 borderRadius: '12px',
                                 border: 'none',
                                 fontWeight: 600,
@@ -129,42 +129,44 @@ export default function TrailSuggester() {
                                 alignItems: 'center',
                                 gap: '0.5rem',
                                 transition: 'all 0.2s',
-                                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                                whiteSpace: 'nowrap'
                             }}
                             onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)' }}
                             onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)' }}
                         >
-                            <MapPin size={18} /> Переити
+                            <MapPin size={20} /> Перейти
                         </button>
                     </div>
                 </div>
 
-                {/* RIGHT: Alternatives */}
-                <div style={{ background: '#f8faf9', padding: '1.5rem', borderRadius: '16px', height: '100%', border: '1px solid #e2e8f0' }}>
-                    <h4 style={{ fontSize: '0.8rem', textTransform: 'uppercase', fontWeight: 700, color: '#718096', marginBottom: '1rem', letterSpacing: '0.05em' }}>
+                {/* BOTTOM: Alternatives */}
+                <div style={{ background: '#f8faf9', padding: '1.5rem', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+                    <h4 style={{ fontSize: '0.9rem', textTransform: 'uppercase', fontWeight: 700, color: '#4a5568', marginBottom: '1.25rem', letterSpacing: '0.05em' }}>
                         Другие отличные варианты
                     </h4>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {/* Make this a grid on desktop for better use of full width */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
                         {alternatives.map(trail => (
                             <div key={trail.id}
                                 onClick={() => scrollToTrail(trail.id)}
                                 style={{
                                     display: 'flex', alignItems: 'center', gap: '1rem',
-                                    padding: '0.75rem', borderRadius: '12px',
+                                    padding: '1rem', borderRadius: '12px',
                                     background: '#fff',
                                     border: '1px solid #e2e8f0',
                                     cursor: 'pointer', transition: 'all 0.2s',
                                     boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
                                 }}
-                                onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#48bb78'; e.currentTarget.style.transform = 'translateX(4px)' }}
-                                onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.transform = 'translateX(0)' }}
+                                onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#48bb78'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+                                onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.transform = 'translateY(0)' }}
                             >
-                                <img src={trail.image} alt="" style={{ width: '56px', height: '56px', borderRadius: '10px', objectFit: 'cover' }} />
+                                <img src={trail.image} alt="" style={{ width: '64px', height: '64px', borderRadius: '10px', objectFit: 'cover' }} />
                                 <div style={{ flex: 1 }}>
-                                    <div style={{ fontWeight: 700, fontSize: '0.95rem', color: '#2d3748', fontFamily: '"Georgia", serif' }}>{trail.name}</div>
-                                    <div style={{ fontSize: '0.75rem', color: '#718096' }}>{trail.distance} • {trail.difficulty}</div>
+                                    <div style={{ fontWeight: 700, fontSize: '1rem', color: '#2d3748', fontFamily: '"Georgia", serif', marginBottom: '0.2rem' }}>{trail.name}</div>
+                                    <div style={{ fontSize: '0.8rem', color: '#718096' }}>{trail.distance} • {trail.difficulty}</div>
                                 </div>
-                                <ArrowRight size={16} className="text-gray-400" />
+                                <ArrowRight size={18} className="text-gray-400" />
                             </div>
                         ))}
                     </div>

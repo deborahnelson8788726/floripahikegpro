@@ -55,9 +55,9 @@ export default function SmartTrailFilters({ onFilterChange }) {
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', margin: 0, fontFamily: '"Georgia", serif' }}>Умные фильтры (PRO)</h3>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem', flexWrap: 'wrap', paddingBottom: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.75rem', flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: '0.5rem' }}>
                 {categories.map(cat => (
-                    <div key={cat.id} style={{ minWidth: '160px' }}>
+                    <div key={cat.id} style={{ flex: 1, minWidth: '130px' }}>
                         <label style={{ display: 'block', fontSize: '0.7rem', color: '#718096', marginBottom: '0.2rem', fontWeight: '600' }}>
                             {cat.label}
                         </label>
@@ -86,12 +86,13 @@ export default function SmartTrailFilters({ onFilterChange }) {
                     onClick={() => toggleBoolean('signal')}
                     style={{
                         height: '36px',
-                        minWidth: '160px',
+                        flex: 1,
+                        minWidth: '100px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: '0.3rem',
-                        padding: '0 0.6rem',
+                        padding: '0 0.5rem',
                         borderRadius: '0.4rem',
                         border: '1px solid',
                         borderColor: activeFilters.signal ? '#3182ce' : '#e2e8f0',
@@ -103,7 +104,7 @@ export default function SmartTrailFilters({ onFilterChange }) {
                         whiteSpace: 'nowrap'
                     }}
                 >
-                    <Signal size={13} /> Мобильная связь
+                    <Signal size={13} /> Связь
                 </button>
 
                 <button
@@ -111,12 +112,13 @@ export default function SmartTrailFilters({ onFilterChange }) {
                     title="Тропы, которые высыхают через 24ч после дождя"
                     style={{
                         height: '36px',
-                        minWidth: '160px',
+                        flex: 1,
+                        minWidth: '100px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: '0.3rem',
-                        padding: '0 0.6rem',
+                        padding: '0 0.5rem',
                         borderRadius: '0.4rem',
                         border: '1px solid',
                         borderColor: activeFilters.noMud ? '#38a169' : '#e2e8f0',
