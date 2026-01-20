@@ -175,3 +175,109 @@ h6 {
   position: relative;
   z-index: 1;
 }
+
+/* --- RESPONSIVE LAYOUT --- */
+.main-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 1.5rem;
+}
+
+/* Tablet / Small Desktop */
+@media (max-width: 1024px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+    /* Stack sidebar under main */
+  }
+
+  .container {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  header h1 {
+    font-size: 3.5rem !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .card {
+    padding: 1.25rem;
+    /* Reduce padding on mobile */
+  }
+
+  header {
+    padding: 3rem 1rem !important;
+    border-radius: 0 0 1.5rem 1.5rem !important;
+  }
+
+  header h1 {
+    font-size: 2.5rem !important;
+  }
+
+  /* Make maps taller on mobile for better interaction? Or keep fixed? */
+  /* Let's ensure filters wrap nicely (already handled in js, but ensure container fits) */
+}
+
+/* --- WEATHER WIDGET RESPONSIVE --- */
+.weather-grid-row,
+.weather-mega-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.weather-grid-row {
+  grid-template-columns: minmax(300px, 1.5fr) 1fr;
+}
+
+.weather-mega-grid {
+  grid-template-columns: minmax(300px, 1fr) 2fr;
+}
+
+.weather-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-content: start;
+}
+
+@media (max-width: 768px) {
+
+  .weather-grid-row,
+  .weather-mega-grid {
+    grid-template-columns: 1fr;
+    /* Stack vertically on mobile/tablet */
+  }
+
+  .weather-bento-grid {
+    grid-template-columns: 1fr 1fr;
+    /* Keep 2 cols for bento even on mobile usually fine, or make 1 if very small */
+  }
+}
+
+@media (max-width: 480px) {
+  .weather-bento-grid {
+    grid-template-columns: 1fr;
+    /* Stack bento items on very small screens */
+  }
+}
+
+/* --- MAP CARDS RESIZING --- */
+.interactive-map-card {
+  height: 500px;
+  grid-column: 1 / -1;
+}
+
+.environmental-map-card {
+  height: 500px;
+}
+
+@media (max-width: 640px) {
+
+  .interactive-map-card,
+  .environmental-map-card {
+    height: 400px;
+    /* Slightly shorter on mobile */
+  }
+}

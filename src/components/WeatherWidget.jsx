@@ -221,7 +221,7 @@ export default function WeatherWidget({ weatherData, loading }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
 
                 {/* ROW 1: Alerts & Wind Map */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1.5fr) 1fr', gap: '1rem' }}>
+                <div className="weather-grid-row">
                     {/* Alert Card */}
                     <DarkCard title="Штормовое Предупреждение" icon={AlertTriangle}>
                         <div style={{ marginTop: '0.5rem' }}>
@@ -286,7 +286,7 @@ export default function WeatherWidget({ weatherData, loading }) {
                 </DarkCard>
 
                 {/* ROW 3: Mega Grid (10-Day + Bento) */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 2fr', gap: '1rem' }}>
+                <div className="weather-mega-grid">
 
                     {/* COL 1: 10-Day Forecast */}
                     <DarkCard title="Прогноз на 10 дней" icon={Calendar}>
@@ -342,7 +342,7 @@ export default function WeatherWidget({ weatherData, loading }) {
                     </DarkCard>
 
                     {/* COL 2: Bento Grid of Stats */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', alignContent: 'start' }}>
+                    <div className="weather-bento-grid">
 
                         {/* UV Index */}
                         <DarkCard title="УФ-ИНДЕКС" icon={Sun} style={{ height: '160px' }}>

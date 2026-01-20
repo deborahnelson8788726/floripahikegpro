@@ -93,13 +93,11 @@ export default function InteractiveMap({ selectedTrail }) {
     return (
         <div
             id="interactive-map"
-            className="card"
+            className="card interactive-map-card"
             ref={mapRef}
             style={{
                 padding: 0,
                 overflow: 'hidden',
-                height: '500px',
-                gridColumn: '1 / -1',
                 zIndex: 1, // Ensure it doesn't overlap header wrongly but shows popups
                 background: '#e5e7eb'
             }}

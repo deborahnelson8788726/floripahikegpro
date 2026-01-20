@@ -103,13 +103,12 @@ function App() {
                 backgroundImage: 'linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url("/header-bg-nature.png")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center 35%',
-                borderRadius: '0 0 2rem 2rem', // Rounded bottom only for a cool overlap effect? Or standard? Let's stick to standard card or no radius if full width.
-                // Resetting border radius to match previous "floating" style or making it full width? 
-                // The previous code had it as a floating "glass-panel" inside container.
-                // Let's keep it as a constrained banner for now, maybe wider?
                 borderRadius: '24px',
                 color: '#fff',
-                boxShadow: '0 20px 40px -10px rgba(0,0,0,0.3)'
+                boxShadow: '0 20px 40px -10px rgba(0,0,0,0.3)',
+                maxWidth: '800px',
+                width: '100%',
+                margin: '0 auto 3rem auto'
             }}>
                 <div style={{ marginBottom: '1.5rem', textShadow: '0 2px 4px rgba(0,0,0,0.4)' }}>
                     <div style={{ fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#f0fdf4', fontWeight: 700, marginBottom: '0.5rem', opacity: 0.9 }}>
@@ -133,6 +132,7 @@ function App() {
                         fontWeight: 400,
                         fontStyle: 'italic',
                         fontFamily: '"Georgia", serif',
+                        lineHeight: 1.6,
                         opacity: 0.95
                     }}>
                         Оперативное руководство по диким тропам острова.
@@ -157,61 +157,62 @@ function App() {
                 </div>
             </header>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 380px', gap: '1.5rem' }}>
-                <main style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {/* SINGLE COLUMN LAYOUT (Mobile Optimized Order 1-11) */}
+            <main style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px', margin: '0 auto' }}>
 
-                    {/* WEATHER & QUICK RECOMMENDATION */}
-                    {/* WEATHER & QUICK RECOMMENDATION */}
-                    <WeatherWidget weatherData={weather} loading={loading} />
-                    <TrailSuggester />
+                {/* 1) Прогноз погоды */}
+                <WeatherWidget weatherData={weather} loading={loading} />
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <h2 style={{ fontSize: '1rem', fontWeight: 800, margin: '0.5rem 0 0 0' }}>🗺️ ИНТЕРАКТИВНАЯ КАРТА МАРШРУТОВ</h2>
-                        <InteractiveMap selectedTrail={selectedTrail} />
-                    </div>
+                {/* 2) Рекомендации недели */}
+                <TrailSuggester />
+
+                {/* 3) 📰 Новости хайкинга Флорипы */}
+                <NewsFeed />
+
+                {/* 4) 🗺️ ИНТЕРАКТИВНАЯ КАРТА МАРШРУТОВ */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <h2 style={{ fontSize: '1rem', fontWeight: 800, margin: '0.5rem 0 0 0' }}>🗺️ ИНТЕРАКТИВНАЯ КАРТА МАРШРУТОВ</h2>
+                    <InteractiveMap selectedTrail={selectedTrail} />
+                </div>
+
+                {/* 5) Умные фильтры (PRO) и 🏔️ Оперативный статус маршрутов */}
+                <div className="card" style={{ padding: 0, overflow: 'visible' }}>
+                    <SmartTrailFilters onFilterChange={setFilters} />
+                    <TrailsGuide trails={filteredTrails} onTrailSelect={handleTrailSelect} />
+                </div>
+
+                {/* 6) 🌱 ЭКОЛОГИЧЕСКАЯ ОБСТАНОВКА */}
+                <EnvironmentalMap />
+
+                {/* 7) 🌪️ Карта Ветра и Циклонов (Live) */}
+                <SatelliteMap />
+
+                {/* 8) Офлайн-чеклисты */}
+                <ChecklistPrep />
+
+                {/* 9) ⚖️ Правила принятия решений */}
+                <div className="card" style={{ borderLeft: '4px solid #ef4444' }}>
+                    <h3 style={{ fontSize: '0.9rem', marginBottom: '1rem', color: '#ef4444', fontWeight: 800, textTransform: 'uppercase' }}>
+                        ⚖️ Правила принятия решений
+                    </h3>
+                    <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: '#4a5568', lineHeight: '1.6', margin: 0 }}>
+                        <li style={{ marginBottom: '0.5rem' }}><b>ПОСЛЕ ДОЖДЯ:</b> Не выходить в течение 48ч после сильных ливней (риск оползней и селей).</li>
+                        <li style={{ marginBottom: '0.5rem' }}><b>ВЕТЕР:</b> При порывах {'>'} 30км/ч избегать открытых гребней (Coroa) и скалистых берегов (Matadeiro).</li>
+                        <li style={{ marginBottom: '0.5rem' }}><b>ЖАРА:</b> В пик {'>'} 30°C только лесные маршруты (Costa da Lagoa, Peri).</li>
+                    </ul>
+                </div>
+
+                {/* 10) 🛡️ Сводка локальных рисков */}
+                <div className="glass-panel" style={{ padding: '1.5rem', background: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.4)' }}>
+                    <LocalRiskInfo />
+                </div>
 
 
 
-                    <div className="card" style={{ padding: 0, overflow: 'visible' }}>
-                        <SmartTrailFilters onFilterChange={setFilters} />
-                        <TrailsGuide trails={filteredTrails} onTrailSelect={handleTrailSelect} />
-                    </div>
-                </main>
+                {/* 11) Оперативные отчеты сообщества */}
+                <CommunityReportsTicker />
 
-                <aside style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-
-                    {/* NEWS FEED */}
-                    <NewsFeed />
-
-                    {/* LIVE UPDATES */}
-                    <CommunityReportsTicker />
-
-
-                    <EnvironmentalMap />
-                    <ChecklistPrep />
-
-                    {/* DECISION RULES */}
-
-                    <div className="card" style={{ borderLeft: '4px solid #ef4444' }}>
-                        <h3 style={{ fontSize: '0.9rem', marginBottom: '1rem', color: '#ef4444', fontWeight: 800, textTransform: 'uppercase' }}>
-                            ⚖️ Правила принятия решений
-                        </h3>
-                        <ul style={{ paddingLeft: '1.25rem', fontSize: '0.85rem', color: '#4a5568', lineHeight: '1.6', margin: 0 }}>
-                            <li style={{ marginBottom: '0.5rem' }}><b>ПОСЛЕ ДОЖДЯ:</b> Не выходить в течение 48ч после сильных ливней (риск оползней и селей).</li>
-                            <li style={{ marginBottom: '0.5rem' }}><b>ВЕТЕР:</b> При порывах {'>'} 30км/ч избегать открытых гребней (Coroa) и скалистых берегов (Matadeiro).</li>
-                            <li style={{ marginBottom: '0.5rem' }}><b>ЖАРА:</b> В пик {'>'} 30°C только лесные маршруты (Costa da Lagoa, Peri).</li>
-                        </ul>
-                    </div>
-
-                    <div className="glass-panel" style={{ padding: '1.5rem', background: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.4)' }}>
-                        <LocalRiskInfo />
-                    </div>
-
-
-                    <SatelliteMap />
-
-                </aside>
-            </div>
+            </main>
 
             <footer style={{ textAlign: 'center', marginTop: '4rem', padding: '3rem', color: '#94a3b8', fontSize: '0.75rem', borderTop: '1px solid #e2e8f0' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginBottom: '1.5rem' }}>
@@ -222,7 +223,7 @@ function App() {
                 <p>FLORIPA HIKING PRO ENGINE v2.6.3 • 2026 Operational Dashboard</p>
                 <p style={{ marginTop: '0.5rem', opacity: 0.6 }}>Данный инструмент предназначен исключительно для опытных хайкеров. <br />Разработчики не несут ответственности за ваши решения в горах.</p>
             </footer>
-        </div>
+        </div >
     )
 }
 
