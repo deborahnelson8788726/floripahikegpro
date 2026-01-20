@@ -1,11 +1,11 @@
 export default function SatelliteMap() {
     return (
-        <div className="card satellite-map">
+        <div className="card satellite-map-card" style={{ display: 'flex', flexDirection: 'column', padding: '1rem' }}>
             <h2 style={{ fontSize: '1rem', marginBottom: '1rem', fontWeight: 800, textTransform: 'uppercase' }}>🌪️ Карта Ветра и Циклонов (Live)</h2>
-            <div style={{ width: '100%', height: '350px', borderRadius: '0.75rem', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+            <div style={{ width: '100%', flex: 1, borderRadius: '0.75rem', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', minHeight: '300px' }}>
                 <iframe
                     width="100%"
-                    height="350"
+                    height="100%"
                     src="https://embed.windy.com/embed2.html?lat=-27.595&lon=-48.548&zoom=9&level=surface&overlay=wind&menu=&message=&marker=&calendar=now&pressure=true&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1"
                     frameBorder="0"
                     style={{ display: 'block' }}

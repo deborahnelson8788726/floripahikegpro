@@ -263,21 +263,26 @@ h6 {
   }
 }
 
-/* --- MAP CARDS RESIZING --- */
 .interactive-map-card {
   height: 500px;
   grid-column: 1 / -1;
 }
 
 .environmental-map-card {
-  height: 500px;
+  height: 650px;
+}
+
+/* Add Satellite Map class if not present or reuse */
+.satellite-map-card {
+  height: 650px;
 }
 
 @media (max-width: 640px) {
 
   .interactive-map-card,
-  .environmental-map-card {
-    height: 400px;
-    /* Slightly shorter on mobile */
+  .environmental-map-card,
+  .satellite-map-card {
+    height: 500px;
+    /* Slightly shorter on mobile but still decent */
   }
 }

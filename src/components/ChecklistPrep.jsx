@@ -1,5 +1,5 @@
 import { CheckSquare, Download } from 'lucide-react';
-import { jsPDF } from 'jspdf';
+
 
 export default function ChecklistPrep() {
     const sections = [
@@ -13,35 +13,28 @@ export default function ChecklistPrep() {
         }
     ];
 
-    const handleDownloadPDF = () => {
-        const doc = new jsPDF();
-
-        doc.setFontSize(20);
-        doc.text("Floripa Hiking PRO - Offline Checklist", 20, 20);
-
-        doc.setFontSize(12);
-        doc.text("Generated on: " + new Date().toLocaleDateString(), 20, 30);
-
-        let yPos = 45;
+    const handleDownloadTXT = () => {
+        let content = "Floripa Hiking PRO - Offline Checklist\n";
+        content += "Generated on: " + new Date().toLocaleDateString() + "\n\n";
 
         sections.forEach(section => {
-            doc.setFontSize(16);
-            doc.setFont(undefined, 'bold');
-            doc.text(section.title, 20, yPos);
-            yPos += 10;
-
-            doc.setFontSize(12);
-            doc.setFont(undefined, 'normal');
+            content += `${section.title}\n`;
+            content += "----------------------------------------\n";
             section.items.forEach(item => {
-                doc.text(`[   ]  ${item}`, 20, yPos);
-                yPos += 8;
+                content += `[ ] ${item}\n`;
             });
-            yPos += 10;
+            content += "\n";
         });
 
-        doc.text("Safety First! Always tell someone where you are going.", 20, yPos + 10);
+        content += "Safety First! Always tell someone where you are going.\n";
 
-        doc.save("floripa-hiking-checklist.pdf");
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'floripa-hiking-checklist.txt';
+        a.click();
+        window.URL.revokeObjectURL(url);
     };
 
     return (
@@ -52,10 +45,10 @@ export default function ChecklistPrep() {
                     <h3 style={{ fontSize: '1rem', fontWeight: 'bold', margin: 0 }}>Офлайн-чеклисты</h3>
                 </div>
                 <button
-                    onClick={handleDownloadPDF}
+                    onClick={handleDownloadTXT}
                     style={{ background: '#f7fafc', border: '1px solid #e2e8f0', borderRadius: '0.4rem', padding: '0.25rem 0.5rem', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer' }}
                 >
-                    <Download size={14} /> PDF
+                    <Download size={14} /> TXT
                 </button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
