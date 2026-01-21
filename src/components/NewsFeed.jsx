@@ -1,9 +1,19 @@
 import { AlertTriangle, Info, Calendar } from 'lucide-react';
 
+import { trails } from '../data/trails';
+
 export default function NewsFeed({ weather }) {
-    // Dynamic Daily Update Logic
+    // 1. Helper for seeded random (stable for 24h)
+    const getSeededRandom = (seed) => {
+        const x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
+    };
+
+    const now = new Date();
+    const daySeed = now.getDate() + (now.getMonth() + 1) * 31 + now.getFullYear() * 365;
+
+    // 2. Dynamic Daily Update (Weather)
     const getDailyUpdate = () => {
-        const now = new Date();
         const months = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
         const dateStr = `${now.getDate()} ${months[now.getMonth()]}`;
 
@@ -30,46 +40,84 @@ export default function NewsFeed({ weather }) {
         };
     };
 
-    const staticNews = [
-        {
-            id: 1,
-            type: 'warning',
-            title: "Высокая температура: Предупреждение",
-            date: "18 Янв 2026",
-            content: "Defesa Civil предупреждает о волне жары на этой неделе. Температура на открытых участках троп может достигать 35°C. Рекомендуется избегать хайкинга с 11:00 до 16:00.",
-            source: "Defesa Civil SC",
-            url: "https://www.defesacivil.sc.gov.br/categoria/aviso/"
-        },
-        {
-            id: 2,
-            type: 'info',
-            title: "Восстановление тропы Naufragados",
-            date: "10 Янв 2026",
-            content: "Завершены работы по укреплению участков тропы после декабрьских штормов. Маршрут полностью открыт и безопасен для посещения.",
-            source: "Floripa Mil Grau",
-            url: "https://www.instagram.com/floripamilgrau"
-        },
-        {
-            id: 3,
-            type: 'event',
-            title: "Групповой поход: 'Рассвет на Morro da Coroa'",
-            date: "25 Янв 2026",
-            content: "Местный клуб 'Trilheiros da Ilha' организует открытый поход на Lagoinha do Leste. Сбор в 04:30 на пляже Pântano do Sul. Участие бесплатное.",
-            source: "Trilheiros da Ilha",
-            url: "https://www.instagram.com/trilheiros_da_ilha"
-        },
-        {
-            id: 4,
-            type: 'info',
-            title: "Новая маркировка на Trilha do Gravatá",
-            date: "Дек 2025",
-            content: "Обновлены указатели на развилках. Теперь ориентироваться стало проще, особенно для новичков.",
-            source: "Floripa.sc.gov.br",
-            url: "https://www.pmf.sc.gov.br"
-        }
-    ];
+    // 3. Procedural News Generator
+    const generateDynamicNews = () => {
+        const generated = [];
+        const months = ['Янв', 'Фев', 'Мар', 'Апр', 'Мая', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
 
-    const news = [getDailyUpdate(), ...staticNews];
+        // A. Seasonal Warning (Based on Month)
+        const month = now.getMonth(); // 0-11
+        let seasonalAlert = null;
+        if (month >= 11 || month <= 2) { // Summer
+            seasonalAlert = {
+                title: "Сезон жары: Высокий риск перегрева",
+                content: "В летний период избегайте открытых троп (Lagoinha, Galheta) с 11:00 до 15:00. Берите минимум 2л воды."
+            };
+        } else if (month >= 5 && month <= 7) { // Winter
+            seasonalAlert = {
+                title: "Зимний сезон: Ранний закат",
+                content: "Темнеет рано (17:30). Планируйте возвращение заранее и всегда берите налобный фонарь."
+            };
+        } else { // Shoulder
+            seasonalAlert = {
+                title: "Межсезонье: Активность фауны",
+                content: "Сезон миграции птиц и активности мелкой фауны. Будьте внимательны на лесных участках."
+            };
+        }
+
+        generated.push({
+            id: 201,
+            type: 'warning',
+            title: seasonalAlert.title,
+            date: `Сезон ${now.getFullYear()}`,
+            content: seasonalAlert.content,
+            source: "Floripa Safe Hiking",
+            url: "#"
+        });
+
+        // B. Dynamic Trail Update (Random Trail)
+        const trailIndex = Math.floor(getSeededRandom(daySeed) * trails.length);
+        const randomTrail = trails[trailIndex];
+        const updates = [
+            "Проведена расчистка тропы волонтерами. Путь свободен.",
+            "Наблюдается небольшая эрозия после дождей, будьте осторожны.",
+            "Установлены новые указатели на развилках.",
+            "Идеальные условия для посещения на этой неделе."
+        ];
+        const updateText = updates[Math.floor(getSeededRandom(daySeed + 1) * updates.length)];
+
+        generated.push({
+            id: 202,
+            type: 'info',
+            title: `Обновление: ${randomTrail.name}`,
+            date: `${now.getDate()} ${months[now.getMonth()]}`,
+            content: updateText,
+            source: "Community Report",
+            url: "#"
+        });
+
+        // C. Weekend Event (If Fri/Sat/Sun)
+        const day = now.getDay();
+        if (day === 5 || day === 6 || day === 0) {
+            const nextDay = day === 5 ? "Субботу" : "Воскресенье";
+            const eventTrailIndex = Math.floor(getSeededRandom(daySeed + 2) * trails.length);
+            const eventTrail = trails[eventTrailIndex];
+
+            generated.push({
+                id: 203,
+                type: 'event',
+                title: `Групповой поход: ${eventTrail.name}`,
+                date: "В эти выходные",
+                content: `Открытый сбор группы на ${nextDay}. Старт в 08:00. Участие бесплатное, уровень: ${eventTrail.difficulty}.`,
+                source: "Trilheiros da Ilha",
+                url: "#"
+            });
+        }
+
+        return generated;
+    };
+
+    const news = [getDailyUpdate(), ...generateDynamicNews()];
 
     const getIcon = (type) => {
         switch (type) {
@@ -104,7 +152,7 @@ export default function NewsFeed({ weather }) {
                                 {getIcon(item.type)}
                                 <span style={{ fontSize: '0.8rem', color: '#718096', fontWeight: item.type === 'daily' ? 'bold' : 'normal' }}>{item.date}</span>
                             </div>
-                            {item.url && (
+                            {item.url && item.url !== "#" && (
                                 <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: '#3182ce', textDecoration: 'none', border: '1px solid #bee3f8', padding: '2px 6px', borderRadius: '4px' }}>
                                     🔗 {item.source}
                                 </a>
