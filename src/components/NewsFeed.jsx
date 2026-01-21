@@ -1,16 +1,36 @@
 import { AlertTriangle, Info, Calendar } from 'lucide-react';
 
-export default function NewsFeed() {
-    const news = [
-        {
+export default function NewsFeed({ weather }) {
+    // Dynamic Daily Update Logic
+    const getDailyUpdate = () => {
+        const now = new Date();
+        const months = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
+        const dateStr = `${now.getDate()} ${months[now.getMonth()]}`;
+
+        let weatherText = "Загрузка данных погоды...";
+        if (weather && weather.current) {
+            const temp = Math.round(weather.current.temperature_2m);
+            const wind = Math.round(weather.current.wind_speed_10m);
+            const isStormy = wind > 30 || (weather.current.precipitation > 0);
+
+            weatherText = `• ${isStormy ? '⚠️ Осторожно: Возможен шторм/осадки' : '✅ Погодные условия благоприятные'}.
+• Температура: ${temp}°C, ветер ${wind} км/ч.
+• Качество воды: Проверьте карту IMA (обновляется еженедельно).
+• Следите за обновлениями Defesa Civil.`;
+        }
+
+        return {
             id: 101,
             type: 'daily',
-            title: "⚡ Daily Update: 19 Января",
+            title: `⚡ Daily Update: ${dateStr}`,
             date: "Сегодня",
-            content: "• Осторожно: Сильный штормовой ветер на побережье (Coastal Winds).\n• Температура комфортная: 21-24°C, облачно.\n• Качество воды: 66% пляжей пригодны. Проверьте карту IMA.\n• Закрыта тропа Pedra do Surfista (риск обвалов).",
+            content: weatherText,
             source: "Weather Radar / Defesa Civil",
             url: "https://www.defesacivil.sc.gov.br/categoria/alerta/"
-        },
+        };
+    };
+
+    const staticNews = [
         {
             id: 1,
             type: 'warning',
@@ -49,6 +69,8 @@ export default function NewsFeed() {
         }
     ];
 
+    const news = [getDailyUpdate(), ...staticNews];
+
     const getIcon = (type) => {
         switch (type) {
             case 'daily': return <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#FCD34D', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>⚡</div>;
@@ -64,7 +86,7 @@ export default function NewsFeed() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem', marginBottom: '1rem' }}>
                 <h2 style={{ fontSize: '1.2rem', margin: 0, lineHeight: 1.2 }}>📰 Новости хайкинга Флорипы</h2>
                 <span style={{ fontSize: '0.8rem', color: '#718096', background: '#EDF2F7', padding: '0.2rem 0.5rem', borderRadius: '0.25rem' }}>
-                    Обновлено: 19 Янв
+                    Обновлено: {new Date().getDate()} {['Янв', 'Фев', 'Мар', 'Апр', 'Мая', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'][new Date().getMonth()]}
                 </span>
             </div>
             <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '1200px', overflowY: 'auto', paddingRight: '0.5rem' }}>

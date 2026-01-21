@@ -167,7 +167,7 @@ function App() {
                 <TrailSuggester />
 
                 {/* 3) 📰 Новости хайкинга Флорипы */}
-                <NewsFeed />
+                <NewsFeed weather={weather} />
 
                 {/* 4) 🗺️ ИНТЕРАКТИВНАЯ КАРТА МАРШРУТОВ */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
