@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Send } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import WeatherWidget from './components/WeatherWidget'
 import NewsFeed from './components/NewsFeed'
 import TrailsGuide from './components/TrailsGuide'
@@ -126,16 +126,34 @@ function App() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        padding: '0.5rem',
-                        background: 'rgba(255,255,255,0.1)',
+                        padding: '0.6rem', // Slightly larger padding
+                        background: 'rgba(255,255,255,0.15)', // Slightly more visible bg
                         borderRadius: '50%',
-                        backdropFilter: 'blur(4px)'
+                        backdropFilter: 'blur(4px)',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)' // Soft shadow for depth
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-                    onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.opacity = '1';
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.25)';
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.opacity = '0.8';
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
+                        e.currentTarget.style.transform = 'scale(1)';
+                    }}
                     title="Наш Telegram канал"
                 >
-                    <Send size={20} />
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        fill="currentColor"
+                        style={{ display: 'block' }}
+                    >
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .24z" />
+                    </svg>
                 </a>
                 <div style={{ marginBottom: '1.5rem', textShadow: '0 2px 4px rgba(0,0,0,0.4)' }}>
                     <div style={{ fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#f0fdf4', fontWeight: 700, marginBottom: '0.5rem', opacity: 0.9 }}>
