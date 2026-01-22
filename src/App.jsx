@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Send } from 'lucide-react'
 import WeatherWidget from './components/WeatherWidget'
 import NewsFeed from './components/NewsFeed'
 import TrailsGuide from './components/TrailsGuide'
@@ -108,8 +109,34 @@ function App() {
                 boxShadow: '0 20px 40px -10px rgba(0,0,0,0.3)',
                 maxWidth: '800px',
                 width: '100%',
-                margin: '0 auto 3rem auto'
+                margin: '0 auto 3rem auto',
+                position: 'relative'
             }}>
+                <a
+                    href="https://t.me/floripahikingpro"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                        position: 'absolute',
+                        top: '1.5rem',
+                        right: '1.5rem',
+                        color: '#fff',
+                        opacity: 0.8,
+                        transition: 'opacity 0.2s',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '0.5rem',
+                        background: 'rgba(255,255,255,0.1)',
+                        borderRadius: '50%',
+                        backdropFilter: 'blur(4px)'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                    onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+                    title="Наш Telegram канал"
+                >
+                    <Send size={20} />
+                </a>
                 <div style={{ marginBottom: '1.5rem', textShadow: '0 2px 4px rgba(0,0,0,0.4)' }}>
                     <div style={{ fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#f0fdf4', fontWeight: 700, marginBottom: '0.5rem', opacity: 0.9 }}>
                         Осн. 2026 • Санта-Катарина
